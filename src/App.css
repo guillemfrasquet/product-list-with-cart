@@ -1,3 +1,17 @@
+.App {
+  display: flex;
+  padding: 50px;
+}
+
+.cart {
+  width: 300px;
+  margin-left: 30px;
+}
+
+.products-container {
+  flex-grow: 1;
+}
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -16,4 +30,42 @@
 .product .product-image>img{
   width: 100%;
   max-width: 300px;
+}
+
+.product-button {
+  display: flex;
+  width: 120px;
+  justify-content: center;
+  background-color: white;
+  border: 1px solid rgb(149, 31, 31);
+}
+
+.product-button .edit-count-button {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.add-product-button, .remove-product-button {
+  all: unset;
+  cursor: pointer;
+  border-radius: 50px;
+  border: 1px solid rgb(153, 49, 49);
+  text-align: center;
+  width: 22px;
+  aspect-ratio: 1;
+}
+
+.add-first-button {
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+}
+
+
+.cart-element {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgb(233, 233, 233);
 }
