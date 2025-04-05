@@ -1,11 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap');
+
 .App {
+  font-family: "Red Hat Text", sans-serif;
   display: flex;
   padding: 50px;
+  background-color: hsl(13, 31%, 94%);
+  align-items: flex-start; /* Evita que los elementos se estiren en el alto */
+
 }
 
 .cart {
   width: 300px;
   margin-left: 30px;
+  background-color: hsl(20, 50%, 98%);
+  min-height: 400px;
+  padding-left: 30px;
+  padding-right: 30px;
+  box-sizing: border-box;
+  border-radius: 10px;
+
 }
 
 .products-container {
@@ -15,51 +28,83 @@
 .products-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 10px;
+  grid-gap: 15px;
   /*grid-auto-rows: minmax(100px, auto);*/
 }
 
 .product {
-  background-color: rgb(247, 240, 240);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  max-width: 300px;
+  margin-bottom: 20px;
 }
 
 .product .product-image>img{
   width: 100%;
-  max-width: 300px;
+  border-radius: 15px;
 }
 
 .product-button {
   display: flex;
   width: 120px;
+  height:20px;
   justify-content: center;
   background-color: white;
-  border: 1px solid rgb(149, 31, 31);
+  border: 1px solid hsl(14, 86%, 42%);
+  padding:10px;
+  border-radius: 40px;
+  margin-top: -25px;
+  user-select: none;
 }
 
-.product-button .edit-count-button {
+.add-first-button {
   display: flex;
-  width: 100%;
+  align-items: center; /* Alinea el texto y el icono verticalmente */
+  gap: 8px; /* Espacio entre el icono y el texto, ajusta según prefieras */
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+.add-first-button:hover {
+  color: hsl(14, 86%, 42%);
+}
+
+.product-button.edit-count-button {
+  display: flex;
   justify-content: space-between;
+  background-color: hsl(14, 86%, 42%);
+  color: white;
 }
 
 .add-product-button, .remove-product-button {
   all: unset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   border-radius: 50px;
-  border: 1px solid rgb(153, 49, 49);
+  border: 1px solid white;
   text-align: center;
-  width: 22px;
+  width: 20px;
+  height: 20px;
   aspect-ratio: 1;
 }
 
-.add-first-button {
+.add-product-button:hover, .remove-product-button:hover {
+  background-color: white;
+}
+
+.add-product-button:hover>svg>path, .remove-product-button:hover>svg>path {
+  fill: hsl(14, 86%, 42%);
+}
+
+
+.product-info {
   width: 100%;
-  text-align: center;
-  cursor: pointer;
+  padding-top: 10px;
 }
 
 
@@ -73,3 +118,19 @@
 .delete-product {
   cursor: pointer;
 }
+
+.product-category {
+  color: hsl(7, 20%, 60%);
+}
+
+.product-name {
+  font-weight: 500;
+  margin: 2px;
+}
+
+.product-price {
+  color: hsl(14, 86%, 42%);
+  font-weight: 500;
+  font-size: 1.2em;;
+}
+
