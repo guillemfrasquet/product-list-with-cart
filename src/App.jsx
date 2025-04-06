@@ -77,7 +77,14 @@ function Product({product, cart, onChangeCount}) {
   return (
     <div className='product'>
       <div className='product-image'>
-        <img src={product.image.desktop}/>
+      <img src={product.image.desktop}/>
+      
+      {/*<img
+        srcSet={`${product.image.mobile} 600w, ${product.image.tablet} 1024w, ${product.image.desktop} 1920w`}
+        src={product.image.mobile} // Fallback image for browsers that don't support srcSet
+        alt="Product image"
+      />*/}
+        
       </div>
       {count === 0 ? (
         <div className="product-button add-first-button" onClick={handleClickAdd}>
@@ -108,11 +115,18 @@ function Product({product, cart, onChangeCount}) {
 
 function Cart({cart, onDeleteProduct}) {
   let total = 0;
+  const totalQuantity = Object.values(cart).reduce((acc, quantity) => acc + quantity, 0);
+
   return (
     <div className="cart">
-      <h2>Your Cart</h2>
+      <h2>Your Cart ({totalQuantity})</h2>
       {Object.keys(cart).length === 0 ? (
-        <div>Empty cart</div>
+          <div class="empty-cart">
+            <img src="/assets/images/illustration-empty-cart.svg" />
+            <p>
+              Your added items will appear here
+            </p>
+          </div>
       ) : (
         <>
           {Object.keys(cart).map((productName) => {
@@ -126,7 +140,17 @@ function Cart({cart, onDeleteProduct}) {
               </div>
             );
           })}
-          <div>Total: €{total}</div>
+          <div className='order-total'>
+            <div className='order-total-label'>Order Total</div>
+            <div className='order-total-value'>€{total.toFixed(2)}</div>
+          </div>
+          <div className='carbon-neutral-text'>
+            <img src="assets/images/icon-carbon-neutral.svg" />
+            <p>This is a <strong>carbon-neutral</strong> delivery</p>
+          </div>
+          <div className="confirm-order-button">
+            Confirm order
+          </div>
         </>
       )}
     </div>
@@ -142,13 +166,13 @@ function CartElement({product, quantity, onDeleteProduct}) {
 return (
   <div key={product.name} className='cart-element'>
     <div className='details'>
-      <p>{product.name}</p>
+      <p className='product-name'>{product.name}</p>
       <div>
-        {quantity}x  @ €{product.price}  €{quantity*product.price}
+        <span className='product-quantity'>{quantity}x</span>  <span class='product-individual-price'>@ €{product.price.toFixed(2)}</span>  <span className='product-subtotal'>€{(quantity*product.price).toFixed(2)}</span>
       </div>
     </div>
     <div className='delete-product' onClick={handleDeleteProduct}>
-      X
+      <img src='assets/images/icon-remove-item.svg'/>
     </div>
   </div>
 )
