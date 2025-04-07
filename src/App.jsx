@@ -4,6 +4,8 @@ import productsData from './data.json';
 
 function App() {
   const [cart, setCart] = useState({});
+  const [showModal, setShowModal] = useState(false);
+
 
   function handleChangeCount(product, count) {
     setCart(prev => {
@@ -23,10 +25,21 @@ function App() {
   function handleDeleteProduct(product) {
     handleChangeCount(product, 0);
   }
+
+  function handleConfirmOrder() {
+    setShowModal(true);
+  }
+
+  function handleStartNewCart() {
+    setCart({});
+    setShowModal(false);
+  }
+
   return (
     <div className="App">
       <ProductsGrid onChangeCount={handleChangeCount} cart={cart}/>
-      <Cart cart={cart} onDeleteProduct={handleDeleteProduct}/>
+      <Cart cart={cart} onDeleteProduct={handleDeleteProduct} onConfirmOrder={handleConfirmOrder}/>
+      <OrderConfirmedModal showModal={showModal} cart={cart} onStartNewCart={handleStartNewCart} />
     </div>
   );
 }
@@ -77,14 +90,17 @@ function Product({product, cart, onChangeCount}) {
   return (
     <div className='product'>
       <div className='product-image'>
-      <img src={product.image.desktop}/>
-      
-      {/*<img
-        srcSet={`${product.image.mobile} 600w, ${product.image.tablet} 1024w, ${product.image.desktop} 1920w`}
-        src={product.image.mobile} // Fallback image for browsers that don't support srcSet
-        alt="Product image"
-      />*/}
-        
+      <img 
+        srcSet={`
+          ${product.image.mobile} 600w,
+          ${product.image.tablet} 1024w,
+          ${product.image.desktop} 1920w
+        `}
+        sizes="(max-width: 600px) 100vw, (max-width: 1024px) 100vw, 1920px" 
+        src={product.image.desktop} // Fallback for browsers that don't support srcSet
+        alt={product.name} 
+      />
+
       </div>
       {count === 0 ? (
         <div className="product-button add-first-button" onClick={handleClickAdd}>
@@ -113,9 +129,13 @@ function Product({product, cart, onChangeCount}) {
 }
 
 
-function Cart({cart, onDeleteProduct}) {
+function Cart({cart, onDeleteProduct, onConfirmOrder}) {
   let total = 0;
   const totalQuantity = Object.values(cart).reduce((acc, quantity) => acc + quantity, 0);
+
+  function handleConfirmOrder() {
+    onConfirmOrder();
+  }
 
   return (
     <div className="cart">
@@ -148,7 +168,7 @@ function Cart({cart, onDeleteProduct}) {
             <img src="assets/images/icon-carbon-neutral.svg" />
             <p>This is a <strong>carbon-neutral</strong> delivery</p>
           </div>
-          <div className="confirm-order-button">
+          <div className="confirm-order-button" onClick={handleConfirmOrder}>
             Confirm order
           </div>
         </>
@@ -177,5 +197,68 @@ return (
   </div>
 )
 }
+
+
+function OrderConfirmedModal({showModal, cart, onStartNewCart}){
+  let total = 0;
+  if (showModal) {
+    return (
+      <div class="modal-overlay">
+      <div class="modal">
+        <div className='title'>
+          <img className='icon-order-confirmed' src="assets/images/icon-order-confirmed.svg" />
+        <h2 >Order Confirmed</h2>
+        </div>
+        
+        <p>We hope you enjoy your food!</p>
+        <div className='summary-products'>
+          {Object.keys(cart).map((productName) => {
+            const quantity = cart[productName];
+            const product = productsData.find(product => product.name == productName);
+            const subtotal = quantity * product.price;
+            total = total + subtotal;
+            return (
+              <div key={productName}>
+                <SummaryItem product={product} quantity={quantity} />
+              </div>
+            );
+          }
+        )
+        }
+        <div className='order-total'>
+              <div className='order-total-label'>Order Total</div>
+              <div className='order-total-value'>€{total.toFixed(2)}</div>
+        </div>
+
+        <div className="confirm-order-button" onClick={onStartNewCart}>
+            Start new order
+        </div>
+      </div>
+      </div>
+    </div>
+  )
+}
+}
+
+function SummaryItem({product, quantity}) {
+
+return (
+  <div key={product.name} className='summary-element'>
+    <div className='product-image'>
+      <img src={product.image.desktop}/>
+    </div>
+    <div className='details'>
+      <p className='product-name'>{product.name}</p>
+      <div>
+        <span className='product-quantity'>{quantity}x</span>  <span class='product-individual-price'>@ €{product.price.toFixed(2)}</span>  
+      </div>
+    </div>
+    <div>
+    <span className='product-subtotal'>€{(quantity*product.price).toFixed(2)}</span>
+    </div>
+  </div>
+)
+}
+
 
 export default App;
