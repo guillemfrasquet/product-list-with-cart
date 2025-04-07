@@ -142,7 +142,7 @@ function Cart({cart, onDeleteProduct, onConfirmOrder}) {
       <h2>Your Cart ({totalQuantity})</h2>
       {Object.keys(cart).length === 0 ? (
           <div class="empty-cart">
-            <img src="/assets/images/illustration-empty-cart.svg" />
+            <img src="assets/images/illustration-empty-cart.svg" />
             <p>
               Your added items will appear here
             </p>
