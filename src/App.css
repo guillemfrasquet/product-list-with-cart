@@ -236,9 +236,11 @@
   transform: translate(-50%, -50%); 
   background: white;
   width: 450px;
+  max-height: 600px;
   padding: 30px;
   background-color: hsl(20, 50%, 98%);
   border-radius: 10px;
+  overflow-y: auto;
 }
 
 
