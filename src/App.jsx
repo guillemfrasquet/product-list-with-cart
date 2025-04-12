@@ -1,9 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import productsData from './data.json';
 
 function App() {
-  const [cart, setCart] = useState({});
+  const [cart, setCart] = useState(() => {
+    const storedCart = localStorage.getItem("cart");
+    return storedCart ? JSON.parse(storedCart) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
   const [showModal, setShowModal] = useState(false);
 
 
@@ -28,6 +36,7 @@ function App() {
 
   function handleConfirmOrder() {
     setShowModal(true);
+    localStorage.removeItem('cart'); // Clean cart from localStorage, so if user refreshes after confirming, it won't be able to re-order it again
   }
 
   function handleStartNewCart() {
